@@ -13,6 +13,8 @@ export default function CreatePost() {
   });
   const [message, setMessage] = useState<string | null>(null);
 
+
+
   const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
     setNewPost({
       ...newPost,
@@ -38,16 +40,19 @@ export default function CreatePost() {
   }
 
   return (
-    <form onSubmit={handleFormSubmit}>
-    <div>
+    <div className="flex flex-col min-h-screen justify-center items-center  gap-3">
+    <form onSubmit={handleFormSubmit} className="p-8 border-2 border-amber-50 rounded-md">
+    <div className="flex flex-col gap-3 py-2 px-2 m-2">
+      <label htmlFor="title">Title:</label>
       <input 
         type="text" 
         id="title"
         name="title"
         value={newPost.title}
-        placeholder="Title"
+        placeholder="Enter a Title"
         required
         onChange={handleInput} />
+        <label htmlFor="post">Post:</label>
       <input 
         type="text" 
         id="post" 
@@ -60,5 +65,6 @@ export default function CreatePost() {
     <button type="submit">Save post</button>
     {message && <p>{message}</p>}
     </form>
+    </div>
   )
 }

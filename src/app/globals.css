@@ -24,3 +24,7 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+button {
+  @apply py-2 px-2 rounded-md border-2 border-amber-50 hover:bg-slate-600 transition-discrete hover:cursor-pointer hover:border-slate-600 w-full
+}

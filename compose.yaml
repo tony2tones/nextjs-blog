@@ -6,9 +6,11 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: example
-      POSTGRES_DB: postgres
+      POSTGRES_DB: dev-db
     ports:
       - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
 
   app:
     build:
@@ -18,10 +20,14 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: development
-      DATABASE_URL: postgresql://postgres:example@db:5432/postgres
+      DATABASE_URL: postgresql://postgres:example@db:5432/dev-db
     volumes:
       - .:/app
       - /app/node_modules
     depends_on:
       - db
-    command: sh -c "npx prisma generate && npx prisma migrate dev --name init && npm run dev"
+    command: sh -c "npx prisma migrate dev --name init && npx ts-node prisma/seed.mjs && npm run dev"
+
+volumes:
+ db-data:
+

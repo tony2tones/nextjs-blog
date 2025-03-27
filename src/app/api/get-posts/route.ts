@@ -11,10 +11,10 @@ export async function GET() {
       return new Response(JSON.stringify('No blogs found'), {status : 200})
     }
     
-    return new Response(JSON.stringify(JSON.stringify(allBlogs)), {status : 200})
+    return new Response(JSON.stringify(allBlogs), {status : 200})
   } catch(error) {
     console.log(error);
-    
+    return new Response(JSON.stringify({ error: "Internal Server Error" }), { status: 500 });
   }
 
 }

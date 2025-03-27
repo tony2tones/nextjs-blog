@@ -13,7 +13,10 @@ export default function CreatePost() {
   });
   const [message, setMessage] = useState<string | null>(null);
 
-  const handleInput = (e:ChangeEvent<HTMLInputElement>) => {
+
+
+  const handleInput = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setMessage(null);
     setNewPost({
       ...newPost,
       [ e.target.name]: e.target.value,
@@ -21,6 +24,7 @@ export default function CreatePost() {
   }
 
   const handleFormSubmit = async (e:FormEvent) => {
+    
     e.preventDefault();
 
     const response = await fetch('/api/create-post', {
@@ -32,33 +36,43 @@ export default function CreatePost() {
 
     if(response.ok) {
       setMessage('Blog post has been successfully added!')
+      setNewPost({
+        title: '',
+        post: '',
+      })
     } else {
       setMessage('Failed to upload blog post')
     }
   }
 
   return (
-    <form onSubmit={handleFormSubmit}>
-    <div>
+    <div className="flex flex-col min-h-screen justify-center items-center gap-3 px-4">
+      <div className="justify-center"><h1>Add a post</h1></div>
+    <form onSubmit={handleFormSubmit} className="p-8 border-2 border-amber-50 rounded-md w-full flex flex-col h-full max-w-md min-h-96">
+    <div className="flex flex-col gap-3 py-2 px-2 m-2 flex-grow">
+      <label htmlFor="title">Title:</label>
       <input 
+      className="border "
         type="text" 
         id="title"
         name="title"
         value={newPost.title}
-        placeholder="Title"
+        placeholder="Enter a Title"
         required
         onChange={handleInput} />
-      <input 
-        type="text" 
+        <label htmlFor="post">Post:</label>
+      <textarea 
+        className="p-2 border rounded-md w-full"
         id="post" 
         name="post" 
-        placeholder="Post"
+        placeholder="Enter a post"
         required
         value={newPost.post}
         onChange={handleInput} />
     </div>
+    {message && <p className="p-4">{message}</p>}
     <button type="submit">Save post</button>
-    {message && <p>{message}</p>}
     </form>
+    </div>
   )
 }

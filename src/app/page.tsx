@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from "react";
+import Loader from "./loader";
 
 type BlogPost = {
   id: number;
@@ -32,14 +33,14 @@ export default function Home() {
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <h1>Welcome to the Blog dawg`zz</h1>
       {loading ? (
-        <div>...loading</div>
+        <Loader />
       ) : blogPosts.length > 0 ?  (
         <ul>
           {blogPosts.map((post) => (
             <li key={post.id}>
               <h2>Title: {post.title}</h2>
               <h3>Post</h3>
-              <p>{post.post}</p>
+              <p>{post.post.substring(0,40) + '...'}</p>
               <br />
             </li>
           ))}

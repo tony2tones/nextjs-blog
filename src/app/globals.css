@@ -19,6 +19,12 @@
   }
 }
 
+h2 {
+  font-family:'san serif';
+  font-weight: 'bold';
+  font-size: 24px;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

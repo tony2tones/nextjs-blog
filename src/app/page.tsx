@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from "react";
 import Loader from "./loader";
+import Link from "next/link";
 
 type BlogPost = {
   id: number;
@@ -38,7 +39,7 @@ export default function Home() {
         <ul>
           {blogPosts.map((post) => (
             <li key={post.id}>
-              <h2>Title: {post.title}</h2>
+              <Link href={`/blog/${post.id}`}><h2>Title: {post.title}</h2></Link>
               <h3>Post</h3>
               <p>{post.post.substring(0,40) + '...'}</p>
               <br />

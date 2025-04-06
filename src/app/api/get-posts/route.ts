@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export async function GET() {
   try {
-    const allBlogs = await prisma.blog.findMany({
+    const allBlogs = await prisma.post.findMany({
       where: {}
     })
     if(!allBlogs) {

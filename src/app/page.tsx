@@ -3,10 +3,39 @@ import { useEffect, useState } from "react";
 import Loader from "./loader";
 import Link from "next/link";
 
+type Comment = {
+  id: string;
+  content:string;
+  post:BlogPost;
+  postId:string;
+  user?:User;
+  userId?:string;
+  createdAt: Date;
+}
+
+type like = {
+  id: string;
+  post:BlogPost;
+  postId:string;
+  user:User;
+  userId:string;
+}
+
+type User = {
+  id: string;
+  name: string;
+  email:string;
+  password:string;
+  posts:BlogPost[];
+  comments: Comment[];
+  likes: like[]
+}
+
 type BlogPost = {
   id: number;
   title: string;
-  post:string;
+  content:string;
+  author: User;
 }
 
 export default function Home() {
@@ -41,7 +70,7 @@ export default function Home() {
             <li key={post.id}>
               <Link href={`/blog/${post.id}`}><h2>Title: {post.title}</h2></Link>
               <h3>Post</h3>
-              <p>{post.post.substring(0,40) + '...'}</p>
+              <p>{post.content.substring(0,40) + '...'}</p>
               <br />
             </li>
           ))}

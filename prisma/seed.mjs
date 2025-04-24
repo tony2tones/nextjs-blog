@@ -1,18 +1,20 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import {prisma} from '../src/lib/prisma.js';
 
 async function main() {
-  const existingBlogs = await prisma.blog.findFirst();
-  if(!existingBlogs) {
-    await prisma.blog.create({
+  const existingUsers = await prisma.user.findFirst();
+
+  if (!existingUsers) {
+    await prisma.user.create({
       data: {
-        title: 'First blog post',
-        post: 'This blog post was seeded because the database was empty'
+        name: 'Default User',
+        email: 'default@example.com',
+        password: 'password123', // Reminder: this should be hashed in production
       },
     });
+
+    console.log('✅ Seeded default user');
   } else {
-    console.log('Database already contains blog posts, skipping seed.');
+    console.log('🟡 Users already exist. Skipping seed.');
   }
 }
 

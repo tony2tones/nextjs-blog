@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from "react"
+import {redirect} from 'next/navigation';
 
 export default function RegisterForm() {
   const [formData,setFormData] = useState({name: '', email: '', password: ''})
@@ -20,33 +21,47 @@ export default function RegisterForm() {
 
     if(res.status === 201) {
       setSuccess("User registered! You can now login.")
+      redirect('/login');
+
     } else {
       const data = await res.json();
       setError(data.error)
     }
   }
 
+  const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const {name, value} = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+
+  }
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       <input 
         type='text' 
-        placeholder="name" 
+        placeholder="name"
+        name="name"
         value={formData.name}
-        onChange={(e) => setFormData({...formData, name:e.target.value})}
+        onChange={handleInputChange}
         required
         />
          <input 
         type='email' 
         placeholder="email" 
+        name="email"
         value={formData.email}
-        onChange={(e) => setFormData({...formData, name:e.target.value})}
+        onChange={handleInputChange}
         required
         />
         <input 
-        type='email' 
-        placeholder="email" 
-        value={formData.email}
-        onChange={(e) => setFormData({...formData, name:e.target.value})}
+        type='password' 
+        placeholder="password" 
+        name="password"
+        value={formData.password}
+        onChange={handleInputChange}
         required
         />
         <button type="submit">Register</button>

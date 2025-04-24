@@ -1,29 +1,36 @@
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
+import { prisma } from '@/lib/prisma';
+import jwt from 'jsonwebtoken';
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const cookieStore = cookies();
+    const token = (await cookieStore).get('token')?.value;
 
-    const existingBlogs = await prisma.blog.findFirst();
-
-    if(!existingBlogs) {
-      await prisma.blog.create({
-        data: {
-          title: 'Welcome to the blog',
-          post:'This is the first automatically seeded blog post.'
-        },
-      });
+    if(!token) {
+      return NextResponse.json({error: 'Unauthorized'}, {status: 401});
     }
 
-    const newPost = await prisma.blog.create({
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {userId:string};
+
+    const {title, post} = await req.json();
+
+    const newPost = await prisma.post.create({
       data: {
-        title: body.title,
-        post: body.post
-      },
+        title,
+        content: post,
+        author: {
+          connect: { id: decoded.userId },
+        },
+      }, 
+      include: {
+        author:true,
+      }
     });
-    return new Response(JSON.stringify(newPost), {status: 201});
+
+    return NextResponse.json({success:structuredClone, post:newPost});
+
   } catch (error) {
     console.log('Error creating post', error);
     return new Response("Failed to create post", {status:500})

@@ -10,6 +10,10 @@ export default function NavBar() {
         <li>
           <Link href="/">View posts</Link>
         </li>
+        <li>
+          <Link href="/register">Register to post blogs</Link>
+          <Link href="/login">Login</Link>
+        </li>
       </ul>
     </header>
   )

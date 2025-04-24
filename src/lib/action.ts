@@ -1,13 +1,13 @@
 "use server";
 import { prisma } from "./prisma";
 
-export default async function handleSubmit(formData: {title: string, post:string}) {
+export default async function handleSubmit(formData: {title: string, content:string}) {
   try {
-    console.log(formData)
-    const newPost = await prisma.blog.create({
+    const newPost = await prisma.post.create({
       data:{
         title: formData.title,
-        post: formData.post,
+        content: formData.content,
+        
       }
     })
     return { success: true, post: newPost };

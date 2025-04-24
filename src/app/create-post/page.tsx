@@ -3,23 +3,24 @@ import { useState, ChangeEvent, FormEvent } from "react";
 
 type NewPost = {
   title:string;
-  post:string;
+  content:string;
 };
 
 export default function CreatePost() {
   const [newPost, setNewPost] = useState<NewPost>({
     title: '',
-    post: '',
+    content: '',
   });
   const [message, setMessage] = useState<string | null>(null);
 
 
 
   const handleInput = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {value, name} = e.target;
     setMessage(null);
     setNewPost({
       ...newPost,
-      [ e.target.name]: e.target.value,
+      [ name]: value,
     })
   }
 
@@ -38,10 +39,11 @@ export default function CreatePost() {
       setMessage('Blog post has been successfully added!')
       setNewPost({
         title: '',
-        post: '',
+        content: '',
       })
     } else {
-      setMessage('Failed to upload blog post')
+      const data = await response.json()
+      setMessage(data.error || 'Failed to upload blog post')
     }
   }
 
@@ -63,11 +65,11 @@ export default function CreatePost() {
         <label htmlFor="post">Post:</label>
       <textarea 
         className="p-2 border rounded-md w-full"
-        id="post" 
-        name="post" 
+        id="content" 
+        name="content" 
         placeholder="Enter a post"
         required
-        value={newPost.post}
+        value={newPost.content}
         onChange={handleInput} />
     </div>
     {message && <p className="p-4">{message}</p>}

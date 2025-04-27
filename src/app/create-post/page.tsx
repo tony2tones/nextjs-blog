@@ -32,7 +32,6 @@ export default function CreatePost() {
       body:JSON.stringify(newPost)
     })
 
-
     if(response.ok) {
       setMessage('Blog post has been successfully added!')
       setNewPost({

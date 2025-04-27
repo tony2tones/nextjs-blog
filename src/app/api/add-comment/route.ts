@@ -22,12 +22,8 @@ export async function POST(req:Request) {
     const newComment = await prisma.comment.create({
       data: {
         content,
-        post : {
-          connect:{postId}
-        },
-        user: {
-          connect: {id: decoded.userId}
-        }
+        post : {connect:{id:postId}},
+        user: {connect: {id: decoded.userId}}
       },
       include: {
         user:true,

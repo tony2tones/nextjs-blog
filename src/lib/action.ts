@@ -7,7 +7,6 @@ export default async function handleSubmit(formData: {title: string, content:str
       data:{
         title: formData.title,
         content: formData.content,
-        
       }
     })
     return { success: true, post: newPost };

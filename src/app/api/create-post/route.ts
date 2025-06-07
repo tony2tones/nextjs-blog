@@ -5,35 +5,35 @@ import jwt from 'jsonwebtoken';
 
 export async function POST(req: Request) {
   try {
-    const cookieStore = cookies();
+    const cookieStore = cookies(); // no await here
     const token = (await cookieStore).get('token')?.value;
 
-    if(!token) {
-      return NextResponse.json({error: 'Unauthorized'}, {status: 401});
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {userId:string};
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
 
-    const {title, post} = await req.json();
+    const { title, content } = await req.json();
 
     const newPost = await prisma.post.create({
       data: {
         title,
-        content: post,
+        content,
         author: {
           connect: { id: decoded.userId },
         },
-      }, 
+      },
       include: {
-        author:true,
-      }
+        author: true,
+      },
     });
 
-    return NextResponse.json({success:structuredClone, post:newPost});
+    return NextResponse.json({ success: true, post: newPost });
 
   } catch (error) {
-    console.log('Error creating post', error);
-    return new Response("Failed to create post", {status:500})
+    console.error('Error creating post:', error);
+    return new Response("Failed to create post", { status: 500 });
   } finally {
     await prisma.$disconnect();
   }

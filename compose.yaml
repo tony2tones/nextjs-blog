@@ -20,7 +20,6 @@ services:
       - "3000:3000"
     environment:
       NODE_ENV: development
-      DATABASE_URL: postgresql://postgres:example@db:5432/dev-db
     volumes:
       - .:/app
       - /app/node_modules
@@ -29,5 +28,4 @@ services:
     command: sh -c "npx prisma migrate dev --name init && npx ts-node prisma/seed.mjs && npm run dev"
 
 volumes:
- db-data:
-
+  db-data:

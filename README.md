@@ -9,6 +9,14 @@ docker-compose up --build
 ```
  to get the docker postgres and prisma and nextjs client project running
 
+ When you want to update columns in the primsa you will need to run the following command to update your database this will also sadly wipe your data
+
+``` docker-compose down --volumes --remove-orphans
+docker-compose build --no-cache
+docker-compose up
+```
+
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.

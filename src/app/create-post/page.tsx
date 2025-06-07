@@ -13,8 +13,6 @@ export default function CreatePost() {
   });
   const [message, setMessage] = useState<string | null>(null);
 
-
-
   const handleInput = (e:ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {value, name} = e.target;
     setMessage(null);
@@ -33,7 +31,6 @@ export default function CreatePost() {
       headers: {"Content-Type": "application/json"},
       body:JSON.stringify(newPost)
     })
-
 
     if(response.ok) {
       setMessage('Blog post has been successfully added!')
@@ -67,13 +64,13 @@ export default function CreatePost() {
         className="p-2 border rounded-md w-full"
         id="content" 
         name="content" 
-        placeholder="Enter a post"
+        placeholder="Add your idea to share"
         required
         value={newPost.content}
         onChange={handleInput} />
     </div>
     {message && <p className="p-4">{message}</p>}
-    <button type="submit">Save post</button>
+    <button type="submit">Save and share your idea</button>
     </form>
     </div>
   )

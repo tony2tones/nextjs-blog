@@ -43,13 +43,14 @@ const AddComment = ({postId}: AddCommentProps) => {
     return (
       <div>
         <h3>Add comment?</h3>
-        <input 
+        <textarea 
           className="p-2 border rounded" 
           id="comment" 
           name="comment" 
           value={comment} 
           placeholder="Add a comment " 
-          onChange={handleCommentInput} />
+          onChange={() => handleCommentInput}
+          />
         <button type="submit" onClick={postComment}>Add comment</button>
       </div>
     )

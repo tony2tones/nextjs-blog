@@ -3,6 +3,13 @@
 When you're ready, start your application by running:
 `docker compose up --build`.
 
+To update columns and rebuild your data base with prisma updates
+this will whipe your database
+
+` docker-compose down --volumes --remove-orphans
+docker-compose build --no-cache
+docker-compose up`
+
 ### Deploying your application to the cloud
 
 First, build your image, e.g.: `docker build -t myapp .`.

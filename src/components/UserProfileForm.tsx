@@ -38,7 +38,6 @@ export default function UserProfileForm({user}:{user: User} ) {
 
   const getImageUrl = (image?: CloudinaryImage | null): string | null => {
   if (!image) return null;
-  const cloud_name = 'dcbvbkyjc';
   return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v${image.version}/${image.publicId}.${image.format}`;
 };
 

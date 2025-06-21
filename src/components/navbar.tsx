@@ -1,6 +1,12 @@
+'use client'
 import Link from 'next/link'
 
 export default function NavBar() {
+  const logout = async () => {
+    await fetch("/api/logout",{method:'POST'})
+    window.location.href = "/login"; 
+  }
+  
   return (
     <header>
       <ul className='flex gap-4 p-3'>
@@ -19,6 +25,10 @@ export default function NavBar() {
           <li className='p-6'>
           <Link href="/login">Login</Link>
         </li>
+        <li className='p-6'>
+          <button onClick={logout}>logout</button>
+        </li>
+        
       </ul>
     </header>
   )

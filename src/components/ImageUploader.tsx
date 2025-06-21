@@ -1,7 +1,5 @@
-// 'use client';
 import { useState, useEffect } from "react"
 import Image from 'next/image'
-// import { CldUploadButton } from 'next-cloudinary';
 
 type ImageUploaderProps = {
   onImageChange : (file:File | null) => void;
@@ -15,7 +13,6 @@ export default function ImageUploader({onImageChange, initialImage}:ImageUploade
   if (initialImage && typeof initialImage === "object") {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { publicId, version, format } = initialImage as any;
-    // const cloudName = "dcbvbkyjc"; // <- your Cloudinary cloud name
     const constructedUrl = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_300,h_300,c_fill/v${version}/${publicId}.${format}`;
     setPreviewUrl(constructedUrl);
   } else if (typeof initialImage === "string") {
@@ -53,7 +50,6 @@ export default function ImageUploader({onImageChange, initialImage}:ImageUploade
             height={250}
           />
         )}
-        {/* <CldUploadButton uploadPreset="<Upload Preset>" onClick={handleFileChange} /> */}
     </div>
 
   )

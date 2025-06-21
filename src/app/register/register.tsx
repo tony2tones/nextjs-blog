@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import {redirect} from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export default function RegisterForm() {
   const [formData,setFormData] = useState({name: '', email: '', password: ''})
@@ -21,11 +22,12 @@ export default function RegisterForm() {
 
     if(res.status === 201) {
       setSuccess("User registered! You can now login.")
+      toast('You have successfully registered');
       redirect('/login');
-
     } else {
       const data = await res.json();
       setError(data.error)
+      toast('Registration has failed');
     }
   }
 

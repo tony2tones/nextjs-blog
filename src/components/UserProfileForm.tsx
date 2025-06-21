@@ -1,6 +1,7 @@
 'use client'
 import { useState } from "react"
 import ImageUploader from "@/components/ImageUploader"
+import toast from "react-hot-toast";
 
 type CloudinaryImage = {
   publicId: string;
@@ -61,10 +62,11 @@ export default function UserProfileForm({user}:{user: User} ) {
     const response = await res.json();
       setUserForm((prev) => ({
         ...prev,
-        image: response.imageUrl, // ✅ Save the Cloudinary URL
+        image: response.imageUrl,
       }));
     console.log('Response in user form', response)
     if(response) {
+      toast('Profile has been updated')
       setMessage('image uploaded')
     }
 

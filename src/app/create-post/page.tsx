@@ -1,5 +1,6 @@
 'use client'
 import { useState, ChangeEvent, FormEvent } from "react";
+import toast from 'react-hot-toast';
 
 type NewPost = {
   title:string;
@@ -33,7 +34,7 @@ export default function CreatePost() {
     })
 
     if(response.ok) {
-      setMessage('Blog post has been successfully added!')
+      toast('Blog post has been successfully created!')
       setNewPost({
         title: '',
         content: '',

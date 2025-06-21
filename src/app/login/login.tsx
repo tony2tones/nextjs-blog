@@ -1,6 +1,7 @@
 'use client'
 import { redirect } from "next/navigation";
 import { useState } from "react";
+import toast from 'react-hot-toast';
 
 type LoginFormProps = {
   email:string;
@@ -21,6 +22,7 @@ const LoginForm = () => {
     });
 
     if(res.status === 200) {
+      toast('You have successfully logged in');
       redirect('/')
     } else {
       setError('login failed')

@@ -2,21 +2,8 @@
 import { useState } from "react"
 import ImageUploader from "@/components/ImageUploader"
 import toast from "react-hot-toast";
-
-type CloudinaryImage = {
-  publicId: string;
-  version: string;
-  format: string;
-  imageId: string;
-  userId: string;
-};
-
-type User = {
-  id:string;
-  name: string;
-  email: string;
-  image?: CloudinaryImage| null;
-};
+import { User } from "@/lib/types/user";
+import { CloudinaryImage } from "@/lib/types/cloudinaryImage";
 
 export default function UserProfileForm({user}:{user: User} ) {
   const [imageSelected, setImageSelected] = useState<File | null>(null);

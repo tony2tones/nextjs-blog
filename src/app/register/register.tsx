@@ -2,7 +2,12 @@
 
 import { useState } from "react"
 import {redirect} from 'next/navigation';
+import { Input } from "@/components/ui/input";
 import toast from 'react-hot-toast';
+import {
+  Card,
+  CardHeader,
+} from "@/components/ui/card"
 
 export default function RegisterForm() {
   const [formData,setFormData] = useState({name: '', email: '', password: ''})
@@ -41,8 +46,15 @@ export default function RegisterForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <input 
+    <div className="flex h-full justify-center align-middle">
+    <Card className="w-full max-w-sm bg-slate-950 text-slate-100">
+      <CardHeader className="text-center">
+      <h1>Register</h1>
+  </CardHeader>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2 px-3">
+      <label htmlFor="name" >Name</label>
+      <Input 
+      className="bg-slate-900"
         type='text' 
         placeholder="name"
         name="name"
@@ -50,7 +62,8 @@ export default function RegisterForm() {
         onChange={handleInputChange}
         required
         />
-         <input 
+      <label htmlFor="email" >Email</label>
+         <Input 
         type='email' 
         placeholder="email" 
         name="email"
@@ -58,7 +71,8 @@ export default function RegisterForm() {
         onChange={handleInputChange}
         required
         />
-        <input 
+        <label htmlFor="password">Password</label>
+        <Input 
         type='password' 
         placeholder="password" 
         name="password"
@@ -70,6 +84,8 @@ export default function RegisterForm() {
         {error && <p>{error}</p>}
         {success && <p>{success}</p>}
     </form>
+    </Card> 
+    </div>
   )
 
 }

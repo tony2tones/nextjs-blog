@@ -51,7 +51,8 @@ export default function RegisterForm() {
       <CardHeader className="text-center">
       <h1>Register</h1>
   </CardHeader>
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 px-3">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2 px-3">
+      <label htmlFor="name" >Name</label>
       <Input 
       className="bg-slate-900"
         type='text' 
@@ -61,6 +62,7 @@ export default function RegisterForm() {
         onChange={handleInputChange}
         required
         />
+      <label htmlFor="email" >Email</label>
          <Input 
         type='email' 
         placeholder="email" 
@@ -69,6 +71,7 @@ export default function RegisterForm() {
         onChange={handleInputChange}
         required
         />
+        <label htmlFor="password">Password</label>
         <Input 
         type='password' 
         placeholder="password" 

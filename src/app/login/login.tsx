@@ -1,7 +1,12 @@
 'use client'
+import { Input } from "@/components/ui/input";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 import toast from 'react-hot-toast';
+import {
+  Card,
+  CardHeader,
+} from "@/components/ui/card"
 
 type LoginFormProps = {
   email:string;
@@ -10,7 +15,6 @@ type LoginFormProps = {
 
 const LoginForm = () => {
   const[loginForm, setLoginForm] = useState<LoginFormProps>({email:'', password: ''})
-  const [error,setError] = useState('');
 
   async function handleSubmit(e:React.FormEvent) {
     e.preventDefault();
@@ -25,7 +29,7 @@ const LoginForm = () => {
       toast('You have successfully logged in');
       redirect('/')
     } else {
-      setError('login failed')
+      toast('Login failed');
     }
     
   }
@@ -40,23 +44,29 @@ const LoginForm = () => {
 
   return (
     <div className="flex h-full justify-center align-middle">
-    <form className="flex flex-col gap-y-2"  onSubmit={handleSubmit}>
+      <Card className="w-full max-w-sm bg-slate-950 text-slate-100">
+  <CardHeader className="text-center">
+      <h1>Login</h1>
+  </CardHeader>
+    <form className="flex flex-col gap-y-2 px-3"  onSubmit={handleSubmit}>
       <label>Email</label>
-      <input 
+      <Input 
       type="text"
         name="email" 
+        placeholder="email"
         id="email" 
         value={loginForm.email} onChange={handleInput} />
       <label>Password</label>
-      <input 
+      <Input 
       type="password"
         name="password" 
+        placeholder="password"
         id="password" 
         value={loginForm.password} 
         onChange={handleInput} />
       <button type="submit">Login</button>
-      {error ?? <p>{error}</p>}
     </form>
+      </Card>
     </div>
   )
 }

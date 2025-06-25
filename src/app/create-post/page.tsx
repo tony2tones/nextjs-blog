@@ -1,4 +1,5 @@
 'use client'
+import { Input } from "@/components/ui/input";
 import { useState, ChangeEvent, FormEvent } from "react";
 import toast from 'react-hot-toast';
 
@@ -46,12 +47,12 @@ export default function CreatePost() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen justify-center items-center gap-3 px-4">
+    <div className="flex flex-col justify-center items-center gap-3 px-4">
       <div className="justify-center"><h1>Add a post</h1></div>
     <form onSubmit={handleFormSubmit} className="p-8 border-2 border-amber-50 rounded-md w-full flex flex-col h-full max-w-md min-h-96">
     <div className="flex flex-col gap-3 py-2 px-2 m-2 flex-grow">
       <label htmlFor="title">Title:</label>
-      <input 
+      <Input 
       className="border "
         type="text" 
         id="title"

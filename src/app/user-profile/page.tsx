@@ -51,8 +51,10 @@ if(!user) {
 
   return (
     <>
+    <div className="flex flex-col items-center">
     <h1>Profile page</h1>
     <GetUserDetails userData={user} />
+    </div>
     </>
   )
 }

@@ -51,7 +51,6 @@ export default function UserProfileForm({user}:{user: User} ) {
         ...prev,
         image: response.imageUrl,
       }));
-    console.log('Response in user form', response)
     if(response) {
       toast('Profile has been updated')
       setMessage('image uploaded')
@@ -60,7 +59,7 @@ export default function UserProfileForm({user}:{user: User} ) {
   }
   return (
     <>
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+    <form onSubmit={handleSubmit} className="flex flex-col items-center gap-3">
       <input 
         type='text' 
         placeholder="name"

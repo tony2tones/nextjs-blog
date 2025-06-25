@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from "react";
 import UserProfileForm from "./UserProfileForm";
+import Loader from "@/app/loader";
 
 type CloudinaryImage = {
   publicId: string;
@@ -19,10 +20,10 @@ type User = {
 
 export default function GetUserDetails({userData: userDetails}:{userData:User}) {
 const [userDataInfo, setUserDataInfo] = useState<User>(userDetails);
-console.log(userDataInfo)
+const [loading, setLoading] = useState(true);
 useEffect(() => {
+  setLoading(true);
   async function getUserDetails() {
-    console.log('does this happen')
     const res = await fetch(`/api/user/${userDetails.id}`);
     if(!res.ok) {
       return;
@@ -30,6 +31,7 @@ useEffect(() => {
     const data = await res.json();
     console.log(data)
     setUserDataInfo(data)
+    setLoading(false);
   }
   getUserDetails();
 }, [userDetails])
@@ -40,7 +42,11 @@ if(!userDataInfo) {
 
   return (
     <>
-    <UserProfileForm user={userDataInfo} />
+    {loading ? (
+            <Loader />
+          ) : (
+            <UserProfileForm user={userDataInfo} />
+          )}
     </>
   )
 }

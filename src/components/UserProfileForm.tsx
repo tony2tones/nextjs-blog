@@ -3,13 +3,13 @@ import { useState } from "react"
 import ImageUploader from "@/components/ImageUploader"
 import toast from "react-hot-toast";
 import { User } from "@/lib/types/user";
-import { CloudinaryImage } from "@/lib/types/cloudinaryImage";
+import { CloudinaryImage } from "@/lib/types/user";
 
 export default function UserProfileForm({user}:{user: User} ) {
   const [imageSelected, setImageSelected] = useState<File | null>(null);
   const [userForm, setUserForm] = useState<User>(user);
   const  [message, setMessage] = useState('');
-
+  
   const handleFileChange = (file:File| null) => {
     setMessage("")
     setImageSelected(file);

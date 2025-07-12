@@ -3,22 +3,7 @@ import GetUserDetails from "@/components/GetUserDetails";
 import { cookies } from "next/headers";
 import jwt from 'jsonwebtoken';
 import { prisma } from "@/lib/prisma";
-
-type CloudinaryImage = {
-  publicId: string;
-  version: string;
-  format: string;
-  imageId: string;
-  userId: string;
-};
-
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  image?: CloudinaryImage|null;
-};
+import { User } from "@/lib/types/user";
 
 export default async function UserProfile() {
 const cookieStore = cookies();
@@ -54,6 +39,7 @@ if(!user) {
     <div className="flex flex-col items-center">
     <h1>Profile page</h1>
     <GetUserDetails userData={user} />
+    {/* </userInfoLayout.Provider> */}
     </div>
     </>
   )

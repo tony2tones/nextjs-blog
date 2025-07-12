@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import UserProfileForm from "./UserProfileForm";
 import Loader from "@/app/loader";
+import { useUser } from "@/lib/context/userContext";
 
 type CloudinaryImage = {
   publicId: string;
@@ -19,8 +20,12 @@ type User = {
 };
 
 export default function GetUserDetails({userData: userDetails}:{userData:User}) {
-const [userDataInfo, setUserDataInfo] = useState<User>(userDetails);
-const [loading, setLoading] = useState(true);
+  const [userDataInfo, setUserDataInfo] = useState<User>(userDetails);
+  const [loading, setLoading] = useState(true);
+  const { user, setUser } = useUser(); // Assuming you have a user context to get the user details
+console.log(userDataInfo);
+console.log('User deets?', user);
+
 useEffect(() => {
   setLoading(true);
   async function getUserDetails() {
@@ -31,10 +36,11 @@ useEffect(() => {
     const data = await res.json();
     console.log(data)
     setUserDataInfo(data)
+    setUser(data);
     setLoading(false);
   }
   getUserDetails();
-}, [userDetails])
+}, [userDetails, setUser]);
 
 if(!userDataInfo) {
   return <div>User details not found.</div>

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Loader from "./loader";
 import Link from "next/link";
+import { useUser} from "@/lib/context/userContext";
 
 type Comment = {
   id: string;
@@ -41,6 +42,10 @@ type BlogPost = {
 export default function Home() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true);
+  // i dont have the users details
+
+const { user } = useUser();
+console.log('user details', user);
   useEffect(() => {
     async function fetchBlogs() {
       try {

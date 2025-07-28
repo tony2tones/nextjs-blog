@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import Loader from "./loader";
 import Link from "next/link";
+import { useUser} from "@/lib/context/userContext";
+import toast from "react-hot-toast";
 
 type Comment = {
   id: string;
@@ -41,13 +43,21 @@ type BlogPost = {
 export default function Home() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true);
+  const { user } = useUser();
+
+    useEffect(() => {
+      if(user) {
+        toast.success(`Welcome back ${user.name}!`)
+      }
+    }, [user]);
+
   useEffect(() => {
     async function fetchBlogs() {
       try {
         const response = await fetch('api/get-posts');
         const data:BlogPost[] = await response.json();
         setBlogPosts(data)
-
+        
       }
       catch (error) {
         console.log(error)
@@ -55,14 +65,15 @@ export default function Home() {
         setLoading(false)
       }
     }
+    
     fetchBlogs();
   }, [])
-
+  
   return (
     <section className="mx-auto w-11/12 md:w-1/2 mt-20 flex flex-col gap-16">
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <h1>Welcome to the ideas Blog dawg`zz</h1>
-      {loading ? (
+      {loading && user?.id? (
         <Loader />
       ) : blogPosts.length > 0 ?  (
         <ul>

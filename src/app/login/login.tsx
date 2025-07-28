@@ -1,6 +1,5 @@
 'use client'
 import { Input } from "@/components/ui/input";
-import { redirect } from "next/navigation";
 import { useState } from "react";
 import toast from 'react-hot-toast';
 import {
@@ -27,7 +26,7 @@ const LoginForm = () => {
 
     if(res.status === 200) {
       toast('You have successfully logged in');
-      redirect('/')
+      window.location.href = '/';
     } else {
       toast('Login failed');
     }

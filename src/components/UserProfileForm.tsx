@@ -1,15 +1,24 @@
 'use client'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ImageUploader from "@/components/ImageUploader"
-import toast from "react-hot-toast";
 import { User } from "@/lib/types/user";
 import { CloudinaryImage } from "@/lib/types/user";
+import { useUser } from "@/lib/context/userContext";
+import toast from "react-hot-toast";
 
-export default function UserProfileForm({user}:{user: User} ) {
+export default function UserProfileForm() {
   const [imageSelected, setImageSelected] = useState<File | null>(null);
-  const [userForm, setUserForm] = useState<User>(user);
+  const {user, setUser} = useUser();
+  const [userForm, setUserForm] = useState<User | undefined>(undefined);
   const  [message, setMessage] = useState('');
   
+  useEffect(() => {
+    if(user) {
+      setUserForm(user)
+    }
+  }
+  , [user]);
+
   const handleFileChange = (file:File| null) => {
     setMessage("")
     setImageSelected(file);
@@ -18,17 +27,13 @@ export default function UserProfileForm({user}:{user: User} ) {
   const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e?.target;
     e.preventDefault();
-    setUserForm(((prev) => ({
-      ...prev,
-      [name]: value,
-    })))
-  }
+    setUserForm((prev) => prev ? {...prev ,[name]: value} :prev);
+  };
 
   const getImageUrl = (image?: CloudinaryImage | null): string | null => {
   if (!image) return null;
   return `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v${image.version}/${image.publicId}.${image.format}`;
 };
-
 
   const handleSubmit = async (e:React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +44,7 @@ export default function UserProfileForm({user}:{user: User} ) {
     const formData = new FormData();
 
     formData.append('image',imageSelected);
-    formData.append('userId',user.id);
+    formData.append('userId',user?.id || '');
 
     const res = await fetch('/api/image-upload', {
       method:'POST',
@@ -47,10 +52,7 @@ export default function UserProfileForm({user}:{user: User} ) {
     })
 
     const response = await res.json();
-      setUserForm((prev) => ({
-        ...prev,
-        image: response.imageUrl,
-      }));
+      setUser(userForm);
     if(response) {
       toast('Profile has been updated')
       setMessage('image uploaded')
@@ -64,7 +66,7 @@ export default function UserProfileForm({user}:{user: User} ) {
         type='text' 
         placeholder="name"
         name="name"
-        value={userForm.name}
+        value={userForm?.name}
         onChange={handleInputChange}
         required
         />
@@ -72,12 +74,12 @@ export default function UserProfileForm({user}:{user: User} ) {
         type='email' 
         placeholder="email" 
         name="email"
-        value={userForm.email}
+        value={userForm?.email}
         onChange={handleInputChange}
         required
         />
       
-    <ImageUploader onImageChange={handleFileChange} initialImage={getImageUrl(userForm.image) || null} />
+    <ImageUploader onImageChange={handleFileChange} initialImage={getImageUrl(userForm?.image) || null} />
     <button type="submit">Update</button>
     </form>
     {message}

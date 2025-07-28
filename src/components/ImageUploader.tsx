@@ -20,7 +20,6 @@ export default function ImageUploader({onImageChange, initialImage}:ImageUploade
   }
 }, [initialImage]);
 
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if(file) {
@@ -32,6 +31,7 @@ export default function ImageUploader({onImageChange, initialImage}:ImageUploade
       onImageChange(null);
     }
   }
+
   return (
     <div>
       <label htmlFor="image">Upload image</label>

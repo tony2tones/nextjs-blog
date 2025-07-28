@@ -27,7 +27,6 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
           const res = await fetch('/api/user');
           if (!res.ok) return;
           const data = await res.json();
-          console.log('Fetched user:', data);
           setUser(data);
         } catch (err) {
           console.error("Failed to fetch user", err);
@@ -39,6 +38,7 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
     
   console.log('UserProvider user:', user);
     return (
+      
       <UserContext.Provider value={{ user, setUser}}>
         {children}
       </UserContext.Provider>

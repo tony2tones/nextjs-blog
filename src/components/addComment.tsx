@@ -14,7 +14,7 @@ const AddComment = ({postId}: AddCommentProps) => {
   function handleCommentInput(e:React.ChangeEvent< HTMLTextAreaElement>) {
     e.preventDefault();
     // const { comment } = e.target.value;
-    // console.log(comment)
+    console.log(e.target.value)
     setComment(e.target.value)
   }
 
@@ -71,15 +71,19 @@ const AddComment = ({postId}: AddCommentProps) => {
           </div>
           <div>
           <h3>Add comment?</h3>
+          <label htmlFor="comment" className="sr-only">Comment</label>
           <textarea 
             className="p-2 border rounded" 
             id="comment" 
             name="comment" 
+            typeof="text"
+            rows={3}
+            cols={30}
             value={comment} 
             placeholder="Add a comment " 
-            onChange={() => handleCommentInput}
+            onChange={handleCommentInput}
             />
-          <button type="submit" onClick={postComment}>Add comment</button>
+          <button type="submit">Add comment</button>
           </div>
         </div>
       </section>

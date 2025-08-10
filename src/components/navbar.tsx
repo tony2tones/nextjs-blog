@@ -20,7 +20,7 @@ export default function NavBar() {
           <Link href="/">View posts</Link>
         </li>
         <li className='p-6'>
-          <Link href="/register">Register to post blogs</Link>
+          <Link href="/register">Register</Link>
           </li>
           <li className='p-6'>
           <Link href="/login">Login</Link>

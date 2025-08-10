@@ -47,9 +47,16 @@ export default function RegisterForm() {
 
   return (
     <div className="flex h-full justify-center align-middle">
-    <Card className="w-full max-w-sm bg-slate-950 text-slate-100">
+    <Card className="w-3xl max-w-md bg-slate-950 text-slate-100">
       <CardHeader className="text-center">
-      <h1>Register</h1>
+        <div className="flex flex-col items-start gap-2 ">
+          <h1>Register</h1>
+          <p>When signing up you wil be able to create a post</p>
+          <p>and comment on other posts.</p>
+          <p>We will never share your data with anyone.</p>
+          <p>We will never spam you.</p>
+          <p>We will never sell your data.</p>
+      </div>
   </CardHeader>
     <form onSubmit={handleSubmit} className="flex flex-col gap-2 px-3">
       <label htmlFor="name" >Name</label>
@@ -87,5 +94,4 @@ export default function RegisterForm() {
     </Card> 
     </div>
   )
-
 }

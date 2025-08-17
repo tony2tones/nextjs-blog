@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useUser } from "@/lib/context/userContext";
 import Image from 'next/image';
+import toast from "react-hot-toast";
 
 type AddCommentProps = {
   postId: string;
@@ -13,8 +14,6 @@ const AddComment = ({postId}: AddCommentProps) => {
 
   function handleCommentInput(e:React.ChangeEvent< HTMLTextAreaElement>) {
     e.preventDefault();
-    // const { comment } = e.target.value;
-    console.log(e.target.value)
     setComment(e.target.value)
   }
 
@@ -46,7 +45,13 @@ const AddComment = ({postId}: AddCommentProps) => {
       
       const data = await res.json();
       console.log(data)
-      setComment('');
+      setComment(data.content);
+      if(data) {
+        setComment('');
+        toast.success('Comment added successfully');
+        console.log('Comment added successfully');
+        
+      }
 
 
     } catch (error) {

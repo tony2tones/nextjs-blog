@@ -1,4 +1,5 @@
 'use client'
+
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import toast from 'react-hot-toast';
@@ -15,7 +16,7 @@ type LoginFormProps = {
 const LoginForm = () => {
   const[loginForm, setLoginForm] = useState<LoginFormProps>({email:'', password: ''})
 
-  async function handleSubmit(e:React.FormEvent) {
+   async function handleSubmit(e:React.FormEvent) {
     e.preventDefault();
 
     const res = await fetch('api/login', {
@@ -30,7 +31,6 @@ const LoginForm = () => {
     } else {
       toast('Login failed');
     }
-    
   }
 
   function handleInput(e:React.ChangeEvent<HTMLInputElement>) {
@@ -47,7 +47,7 @@ const LoginForm = () => {
   <CardHeader className="text-center">
       <h1>Login</h1>
   </CardHeader>
-    <form className="flex flex-col gap-y-2 px-3"  onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-y-2 px-3" onSubmit={handleSubmit}>
       <label>Email</label>
       <Input 
       type="text"

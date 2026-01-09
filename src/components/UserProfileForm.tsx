@@ -57,7 +57,6 @@ export default function UserProfileForm() {
       toast('Profile has been updated')
       setMessage('image uploaded')
     }
-
   }
   return (
     <>

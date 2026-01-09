@@ -1,6 +1,7 @@
 'use client'
 import { Input } from "@/components/ui/input";
-import { useState, ChangeEvent, FormEvent } from "react";
+import { createPost } from "@/lib/action";
+import { useState, ChangeEvent } from "react";
 import toast from 'react-hot-toast';
 
 type NewPost = {
@@ -24,32 +25,23 @@ export default function CreatePost() {
     })
   }
 
-  const handleFormSubmit = async (e:FormEvent) => {
-    
-    e.preventDefault();
-
-    const response = await fetch('/api/create-post', {
-      method:'POST',
-      headers: {"Content-Type": "application/json"},
-      body:JSON.stringify(newPost)
-    })
-
-    if(response.ok) {
-      toast('Blog post has been successfully created!')
+  const handleCreatePost = async (formData: FormData) => {
+    const response = await createPost(formData);
+    if (response.success) {
+      toast('Blog post has been successfully created!');
       setNewPost({
         title: '',
         content: '',
-      })
+      });
     } else {
-      const data = await response.json()
-      setMessage(data.error || 'Failed to upload blog post')
+      setMessage(response.error || 'Failed to upload blog post');
     }
   }
 
   return (
     <div className="flex flex-col justify-center items-center gap-3 px-4">
       <div className="justify-center"><h1>Add a post</h1></div>
-    <form onSubmit={handleFormSubmit} className="p-8 border-2 border-amber-50 rounded-md w-full flex flex-col h-full max-w-md min-h-96">
+    <form action={handleCreatePost} className="p-8 border-2 border-amber-50 rounded-md w-full flex flex-col h-full max-w-md min-h-96">
     <div className="flex flex-col gap-3 py-2 px-2 m-2 flex-grow">
       <label htmlFor="title">Title:</label>
       <Input 

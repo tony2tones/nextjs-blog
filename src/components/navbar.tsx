@@ -1,5 +1,5 @@
 'use client'
-import Link from 'next/link'
+import {  NavItems } from './ui/navItem';
 
 export default function NavBar() {
   const logout = async () => {
@@ -9,27 +9,12 @@ export default function NavBar() {
   
   return (
     <header>
-      <ul className='flex gap-4 p-3'>
-        <li className='p-6'>
-          <Link href="/create-post">Create blog post</Link>
-        </li>
-        <li className='p-6'>
-        <Link href={`/user-profile/`}>Update profile</Link>
-        </li>
-        <li className='p-6'>
-          <Link href="/">View posts</Link>
-        </li>
-        <li className='p-6'>
-          <Link href="/register">Register</Link>
-          </li>
-          <li className='p-6'>
-          <Link href="/login">Login</Link>
-        </li>
-        <li className='p-6'>
+      <div className='w-full flex justify-between bg-slate-800 items-center'>
+        <NavItems />
+          <div className='p-4 text-white'>
           <button onClick={logout}>logout</button>
-        </li>
-        
-      </ul>
+          </div>
+      </div>
     </header>
   )
 }

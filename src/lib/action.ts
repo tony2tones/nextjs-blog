@@ -76,7 +76,6 @@ export async function createPost(formData: FormData) {
 }
 
 export async function createComment(formData: FormData) {
-  console.log('formdata', formData);
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
@@ -85,7 +84,6 @@ export async function createComment(formData: FormData) {
       return { success: false, message: 'Unauthorized' };
     }
 
-    console.log('do we get this far at least?', formData)
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as unknown as CustomJwtPayload;
 
     const postId = formData.get('postId') as string;
@@ -104,7 +102,6 @@ export async function createComment(formData: FormData) {
 
     // Revalidate any pages that display posts
     revalidatePath(`/blog/${postId}`); // adjust path as needed
-    // revalidatePath('/');
 
     return { success: true, post: newComment };
 

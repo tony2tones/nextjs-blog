@@ -3,7 +3,12 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "./prisma";
 import { cookies } from 'next/headers';
-import jwt from 'jsonwebtoken';
+import jwt, {JwtPayload} from 'jsonwebtoken';
+
+// Define your JWT payload type
+interface CustomJwtPayload extends JwtPayload {
+  userId: string;
+}
 
 export default async function handleSubmit(formData: FormData) {
   try {
@@ -34,7 +39,7 @@ export async function createPost(formData: FormData) {
       return { success: false, error: 'Unauthorized' };
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as CustomJwtPayload;
 
     const title = formData.get('title') as string;
     const content = formData.get('content') as string;
@@ -70,3 +75,46 @@ export async function createPost(formData: FormData) {
   }
 }
 
+export async function createComment(formData: FormData) {
+  console.log('formdata', formData);
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get('token')?.value;
+    
+    if(!token) {
+      return { success: false, message: 'Unauthorized' };
+    }
+
+    console.log('do we get this far at least?', formData)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as unknown as CustomJwtPayload;
+
+    const postId = formData.get('postId') as string;
+    const content = formData.get('content') as string;
+
+    const newComment = await prisma.comment.create({
+      data: {
+        content,
+        post : { connect:{id: postId }},
+        user: { connect: {id: decoded.userId }}
+      },
+      include: {
+        user: true,
+      }
+    })
+
+    // Revalidate any pages that display posts
+    revalidatePath(`/blog/${postId}`); // adjust path as needed
+    // revalidatePath('/');
+
+    return { success: true, post: newComment };
+
+    } catch (error) {
+    console.error('Error creating comment:', error);
+    if (error instanceof jwt.JsonWebTokenError) {
+      return { success: false, message: 'Invalid token' };
+    }
+    return { success: false, message: 'Failed to create comment' };
+  } finally {
+    await prisma.$disconnect();
+  }
+}

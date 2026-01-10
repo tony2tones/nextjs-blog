@@ -31,24 +31,24 @@ const AddComment = ({postId}: AddCommentProps) => {
   }
 
     return (
-        <form action={handleCreateComment} >
-          <section className="flex flex-col gap-4 p-4 border rounded-md">
-            <div className="flex gap-2">
-              <div className="flex justify-center items-center border-2 rounded-3xl">
+        <form action={handleCreateComment} className="bg-slate-900" >
+          <section className="flex flex-col gap-4 p-4 rounded-md">
+            <div className="flex justify-evenly">
+              <div className="flex justify-center items-center border-black rounded-3xl">
                 <Image 
                   src={user?.image ? `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/v${user?.image?.version}/${user?.image?.publicId}.${user?.image?.format}` : '/profile_blank.png'}
                   alt={'user profile image'}  
                   objectFit="cover"
                   className="rounded-full"
-                  height={200}
-                  width={200}
+                  height={150}
+                  width={150}
                   />
               </div>
               <div>
-              <h3>Add comment?</h3>
+              <h2 className="font-semibold">Add comment?</h2>
               <label htmlFor="comment" className="sr-only">Comment</label>
               <textarea 
-                className="p-2 border rounded" 
+                className="p-2 border rounded-md w-full" 
                 id="comment" 
                 name="comment" 
                 typeof="text"

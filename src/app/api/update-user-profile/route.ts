@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import {prisma} from '@/lib/prisma';
+import {prisma} from '@/lib/prisma.js';
 import { verify } from "jsonwebtoken";
 import cloudinary from "@/lib/cloudinary";
 import { cookies } from "next/headers";
@@ -14,6 +14,7 @@ export async function POST(req:Request) {
 
   try {
     const decoded = verify(token, process.env.JWT_SECRET!) as {userId: string};
+    
     const user = await prisma.user.findUnique({
       where: {id: decoded.userId},
       include: {"image": true},

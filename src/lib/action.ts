@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { prisma } from "./prisma";
+import { prisma } from "./prisma.js";
 import { cookies } from 'next/headers';
 import jwt, {JwtPayload} from 'jsonwebtoken';
 
@@ -43,6 +43,10 @@ export async function createPost(formData: FormData) {
 
     const title = formData.get('title') as string;
     const content = formData.get('content') as string;
+
+    console.log('Creating post with title:', title);
+    console.log('Creating post with constant:', content);
+    console.log('Creating formData:', formData);
 
     if (!title || !content) {
       return { success: false, error: 'Title and content are required' };

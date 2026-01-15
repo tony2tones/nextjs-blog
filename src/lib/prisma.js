@@ -1,6 +1,8 @@
+// src/lib/prisma.js
 import { PrismaClient } from "@prisma/client";
 
-const globalForPrisma = global;
+// globalThis works in all environments
+const globalForPrisma = globalThis;
 
 export const prisma = globalForPrisma.prisma || new PrismaClient();
 

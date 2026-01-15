@@ -1,4 +1,4 @@
-import { prisma } from "../prisma";
+import { prisma } from "../prisma.js";
 import { CloudinaryImage } from "../types/user";
 
 type User = {

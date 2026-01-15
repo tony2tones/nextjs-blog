@@ -1,25 +1,34 @@
-import AddComment from "@/components/addComment";
+// Your page component
+// 'use client';
+
+import CommentSection from "@/components/CommentSection";
 import { BlogView } from "@/components/blogView";
-import CommentReel from "@/components/commentReel";
 import getBlogComments from "@/lib/services/getBlogComments";
 import GetBlogPost from "@/lib/services/getBlogPost";
+import { getCurrentUser } from "@/lib/services/getCurrentUser";
 
 export default async function BlogPostView({ params }: { params: Promise<{ id: string }> }) {
+  console.log("BlogPostView params:", params);
   const { id } = await params;
-  
-  const comments = await getBlogComments(id);
-  const blogPost = await GetBlogPost(id);
-  if (!blogPost) return <div>No data found</div>; // Show 404 page if post is missing
 
-  if (!comments || comments.length === 0) return <div>No data found</div> // Show 404 page if post is missing
+  const [comments, blogPost, currentUser] = await Promise.all([
+    getBlogComments(id),
+    GetBlogPost(id),
+    getCurrentUser(),
+  ]);
+
+  if (!blogPost) return <div>No data found</div>;
+
   return (
     <section className="mx-auto w-11/12 md:w-1/2 mt-20 flex flex-col gap-16">
       <div className="gap-2">
-     <BlogView id={id} /> 
-    <h2>Comments:</h2>
-    <CommentReel comments={comments} />
-    <AddComment postId={id}/>
-    </div>
+        <BlogView id={id} />
+        <CommentSection
+          initialComments={comments || []}
+          postId={id}
+          currentUser={currentUser || { name: 'Guest' }}
+        />
+      </div>
     </section>
   );
 }

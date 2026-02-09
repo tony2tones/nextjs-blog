@@ -4,11 +4,47 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "./prisma.js";
 import { cookies } from 'next/headers';
 import jwt, {JwtPayload} from 'jsonwebtoken';
+import bcrypt from "bcryptjs";
 
 // Define your JWT payload type
 interface CustomJwtPayload extends JwtPayload {
   userId: string;
 }
+
+type RegisterState = {
+  success: boolean;
+  status: number;
+  message?: string;
+} | undefined;
+
+export async function register(prevState: RegisterState, formData: FormData): Promise<RegisterState> {
+  try {
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+      }
+    })
+
+    console.log('USER EE', user);
+
+    if(user) {
+      // revalidatePath('/');
+      return {success: true , status: 200 };
+    }
+  }
+    catch(error) {
+      return { success: false, status: 400, message: `Registration failed ${error}` };
+    }
+}
+  
 
 export default async function handleSubmit(formData: FormData) {
   try {
@@ -43,10 +79,6 @@ export async function createPost(formData: FormData) {
 
     const title = formData.get('title') as string;
     const content = formData.get('content') as string;
-
-    console.log('Creating post with title:', title);
-    console.log('Creating post with constant:', content);
-    console.log('Creating formData:', formData);
 
     if (!title || !content) {
       return { success: false, error: 'Title and content are required' };

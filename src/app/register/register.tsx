@@ -21,28 +21,6 @@ export default function RegisterForm() {
     router.push('/');
   }
 
-  // async function handleSubmit(e:React.FormEvent) {
-  //   e.preventDefault();
-  //   setError('');
-  //   setSuccess('');
-
-  //   const res = await fetch('/api/register', {
-  //     method: "POST",
-  //     body: JSON.stringify(formData),
-  //     headers: {'Content-Type': 'application/json'},
-  //   });
-
-  //   if(res.status === 201) {
-  //     setSuccess("User registered! You can now login.")
-  //     toast('You have successfully registered');
-  //     redirect('/login');
-  //   } else {
-  //     const data = await res.json();
-  //     setError(data.error)
-  //     toast('Registration has failed');
-  //   }
-  // }
-
   const handleInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const {name, value} = e.target;
     setFormData((prev) => ({
